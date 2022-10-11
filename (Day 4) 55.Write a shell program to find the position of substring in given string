@@ -1,0 +1,105 @@
+# let give a string 
+str="geeks for geeks is the best platform for computer science geeks"
+
+# now ask user to give the new string or use the given default string
+echo "Hello there, do you wanna give new string or use default"
+echo 
+echo "Enter 1 for new string"
+echo "Enter 0 for continue"
+
+# now read the choice form user
+read choice
+echo
+
+# make the condition to check the choice and perform action according to that
+if [[ choice == 1 ]]
+then 
+    # now ask reader to give the main string
+    echo "Please, Enter the main string"
+    
+    # now read the string 
+    read str
+    echo
+fi
+
+# print a message
+echo "Let's continue to get the index of the substring....."
+echo
+
+# make a loop to get the substring values from the user 
+while [[ 1 ]]
+do 
+    # print the statement
+    echo "Enter a substring to get the position of that string OR Enter -1 to get exit"
+    
+    # now read the substr
+    read substr
+    
+    # make a condition to check the value of substr
+    if [[ $substr != -1 ]]
+    then 
+        # # 1st approach code to get the substring position from given string ( 1st approach )
+        # # This approach is comparison on char by char 
+        # ************************************************************************
+        
+        # length of the given string
+        lenGS=${#str}
+        #length of the substr
+        lenSS=${#substr}
+        
+        # check the condition where string length is less than substring length
+        if [[ $lenGS -lt $lenSS ]] 
+        then 
+            echo "Sorry, Your substring exceed main string, Please Enter another"
+            continue
+        fi
+        
+        # variable to store position 
+        pos=-1
+        # variable to check
+        found=0
+        
+        # run three native loop ( brute force approach ) 
+        for (( i=0;i<lenGS;++i ))
+        do
+        
+            if [[ ${str:i:1} == ${substr:0:1} ]]
+            then 
+            
+                # now loop to check that here substring or not
+                kstr=$i
+                ksubstr=$i
+
+                while (( kstr<lenGS && ksubstr<lenSS ))
+                do 
+                    if [[ ${str:kstr:1} != ${substr:ksubstr:1} ]]
+                    then
+                        break
+                    fi
+                    kstr=`expr $kstr + 1`
+                    ksubstr=`expr $ksubstr + 1`
+                done
+                
+                # check if substring found
+                if [[ ${ksubstr} == ${lenSS} ]]
+                then
+                    echo "Your substring $substr is found at the index ${i+1}"
+                    found=1
+                    break
+                fi
+            fi
+        done
+        
+        # check the substring found or not
+        if [[ $found == 0 ]]
+        then 
+            echo "Sorry, Your substring $substr is not found in main string"
+        fi
+        echo
+        #**********************************************************************
+        
+    else
+        echo "okay! Closed"
+        break
+    fi
+done
